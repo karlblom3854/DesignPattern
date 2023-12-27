@@ -40,6 +40,3 @@ if __name__ == '__main__':
     my_water_heater.set_temperature(20)
     my_water_heater.set_temperature(60)
     my_water_heater.set_temperature(100)
-
-
-
