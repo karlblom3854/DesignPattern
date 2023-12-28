@@ -16,14 +16,14 @@ class WaterHeater(Observable):
 
 
 class WashingMode(Observer):
-    def update(self, water_heater):
+    def update(self, water_heater, extra_info):
         current_temperature = water_heater.get_temperature()
         if 50 <= current_temperature < 70:
             print(f"此时水温为{current_temperature}，可洗澡！")
 
 
 class DrinkingMode(Observer):
-    def update(self, water_heater):
+    def update(self, water_heater, extra_info):
         current_temperature = water_heater.get_temperature()
         if current_temperature >= 100:
             print(f"此时水温为{current_temperature}，可饮用！")
@@ -40,3 +40,4 @@ if __name__ == '__main__':
     my_water_heater.set_temperature(20)
     my_water_heater.set_temperature(60)
     my_water_heater.set_temperature(100)
+    my_water_heater.set_temperature(50)

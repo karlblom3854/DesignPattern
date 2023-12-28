@@ -11,7 +11,7 @@
 3. 被观察者需要能够添加和移除观察者观察者（addObserver(Observer), removeObserver(Observer)）。
 4. 被观察者的实例化对象，需要在自身状态变化时（change()），通过父类通知给观察者（notifyObservers）。
 5. 观察者的实例化对象接收到通知后，需要通过重写父类的（update(Observable)）方法，以便更新“观察状态”。
-### 联系
+### 练习
 1. 热水器-饮用模式&洗澡模式（water_heater.py）
 2. 异常登陆（）
 ### 模型使用场景
