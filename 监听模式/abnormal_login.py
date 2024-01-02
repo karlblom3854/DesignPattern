@@ -1,40 +1,56 @@
+import time
+
 from framework import Observable, Observer
 
 
-class User(Observable):
+def get_region(ip):
+    ip_regions = {
+        "101.47.18.9": "浙江省杭州市",
+        "67.218.147.69": "美国洛杉矶"
+    }
+    region = ip_regions.get(ip)
+    return "" if region is None else region
+
+
+class Account(Observable):
     def __init__(self):
         super().__init__()
-        self.__ip = None
-        self.__region = None
+        self.__last_ip = []
+        self.__last_region = []
 
-    def get_login_info(self):
-        return [self.__ip, self.__region]
+    def login(self, ip):
+        region = get_region(ip)
+        if self.__is_long_dist(region):
+            self.notify_observers({"ip": ip, "region": region})
+        self.__last_ip = None
+        self.__last_region = None
 
-    def login(self, ip, region):
-        self.notify_observers([ip, region])
-        self.__ip = ip
-        self.__region = region
+    # ---functional function--- #
+    def __is_long_dist(self, region):
+        last_region = self.__last_region
+        return last_region is not None and last_region != region
 
 
-class AbnormalCheck(Observer):
-    def update(self, observable, extra_info):
-        [last_ip, last_region] = observable.get_login_info()
-        if (last_ip is not None and last_region is not None) and (last_ip != extra_info[0] or last_region != extra_info[1]):
-            [current_ip, current_region] = extra_info
-            print("检查到异常登录！！！")
-            print(f"Last IP: {last_ip}, Last Region: {last_region}")
-            print(f"Current IP: {current_ip}, Current Region: {current_region}")
+class SmsSender(Observer):
+    def update(self, observable, info):
+        print("***短信***")
+        print("\t检查到异常登录情况，最近一次登录信息：")
+        print(f"\t登录时间：{time.time()}，"
+              f"登录IP：{info['ip']}，登录位置：{info['region']}\n")
+
+
+class MailSender(Observer):
+    def update(self, observable, info):
+        print("***邮件***")
+        print("\t检查到异常登录情况，最近一次登录信息：")
+        print(f"\t登录时间：{time.time()}，"
+              f"登录IP：{info['ip']}，登录位置：{info['region']}\n")
 
 
 if __name__ == '__main__':
-    first_user = User()
-    checker = AbnormalCheck()
+    account = Account()
+    account.add_observer(SmsSender())
+    account.add_observer(MailSender())
 
-    first_user.add_observer(checker)
-
-    first_user.login('1.1.1.1', 'Local')
-
-    first_user.login('1.1.1.2', 'Local')
-
-
-
+    account.login('101.47.18.9')
+    account.login('67.218.147.69')
