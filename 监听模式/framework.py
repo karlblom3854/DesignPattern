@@ -4,7 +4,7 @@ from abc import ABCMeta, abstractmethod
 class Observer(metaclass=ABCMeta):
     """定义观察者父类"""
     @abstractmethod
-    def update(self, observable, info):
+    def update(self, observable, message):
         """观察者用于更新状态的抽象方法"""
         pass
 
@@ -23,7 +23,7 @@ class Observable:
         """移除观察者"""
         self.__observers.remove(observer)
 
-    def notify_observers(self, info=None):
+    def notify_observers(self, message=None):
         """将自身信息变化通知给所有观察者"""
         for o in self.__observers:
-            o.update(self, info)
+            o.update(self, message)
