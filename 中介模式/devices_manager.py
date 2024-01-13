@@ -16,8 +16,8 @@ class DeviceItem:
         self.__is_default = is_default
 
     def __str__(self):
-        print(f"设备ID：{self.__id}，设备名称：{self.__name}，"
-              f"设备类型{self.__device_type}， 是否默认设备：{self.__is_default}")
+        return (f"设备ID：{str(self.__id)}，设备名称：{str(self.__name)}，"
+                f"设备类型{str(self.__device_type)}， 是否默认设备：{str(self.__is_default)}")
 
     def get_id(self):
         return self.__id
@@ -49,9 +49,9 @@ class DeviceList:
             return self.__device_list[idx]
 
     def get_by_id(self, device_id):
-        for device in self.__device_list:
-            if device.get_id() == device_id:
-                return device
+        for device_item in self.__device_list:
+            if device_item.get_id() == device_id:
+                return device_item
 
 
 class DeviceManager(metaclass=ABCMeta):
@@ -97,7 +97,26 @@ class DeviceUtil:
         self.__managers[DeviceType.TypeCamera] = CameraManager()
         # 暂不添加其他设备
 
-    def enumerate_devices(self):
-        pass
+    def __get_device_manager(self, device_type):
+        return self.__managers[device_type]
+
+    def get_device_list(self, device_type):
+        return self.__get_device_manager(device_type).enumerate_devices()
+
+    def activate(self, device_type, device_id):
+        self.__get_device_manager(device_type).activate(device_id)
+
+    def get_cur_device_id(self, device_type):
+        return self.__get_device_manager(device_type).get_cur_device_id()
 
 
+if __name__ == '__main__':
+    device_util = DeviceUtil()
+    device_list = device_util.get_device_list(DeviceType.TypeCamera)
+    print(f"相机设备列表：")
+    if device_list.get_count() > 0:
+        device_util.activate(DeviceType.TypeCamera, device_list.get_by_idx(0).get_id())
+    for idx in range(device_list.get_count()):
+        device = device_list.get_by_idx(idx)
+        print(device)
+    print(f"当前使用的设备： {device_list.get_by_id(device_util.get_cur_device_id(DeviceType.TypeCamera)).get_name()}")
