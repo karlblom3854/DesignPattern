@@ -92,6 +92,7 @@
 右下角应该为DecoratorImplB，非Decorator。
 ### 练习
 1. 人物装饰（clothing.py）
+2. 画形状（draw_shape.py）
 ### 模型说明
 
 ### 个人理解&注意事项
