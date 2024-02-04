@@ -150,7 +150,7 @@ framework2.py需要理解自定义metaclass创建对象的过程，理清__init_
 ### 类图
 ![](asserts/代理模式-类图.png)
 ### 练习
-1. 代取快递（express.py）
+1. 代取快递（express.py & parcel.py）
 2. 
 ### 模型说明
 1. 模型优缺点
@@ -161,3 +161,5 @@ framework2.py需要理解自定义metaclass创建对象的过程，理清__init_
      
      在调用者和被调用者之间增加了代理对象的处理
 ### 个人理解&注意事项
+1. （简单情况下）由于代理对象帮助被代理对象完成服务，因此代理对象无需定义request方法，直接调用real_subject对象的request方法即可。
+2. 
