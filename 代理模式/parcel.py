@@ -1,7 +1,7 @@
-from framework import ReadSubject, ProxySubject
+from framework import RealSubject, ProxySubject
 
 
-class TonyReception(ReadSubject):
+class TonyReception(RealSubject):
     def __init__(self, name, phone_num):
         super().__init__(name)
         self.__phone_num = phone_num

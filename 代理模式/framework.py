@@ -13,7 +13,7 @@ class Subject(metaclass=ABCMeta):
         pass
 
 
-class ReadSubject(Subject):
+class RealSubject(Subject):
     def request(self, content):
         print(f"ReadSubject do something...")
 
